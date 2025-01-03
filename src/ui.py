@@ -8,8 +8,13 @@ class UI:
     def __init__(self):
         pass
 
-    def how_to_use(self):
-        pass
+    def how_to_use(self) -> None:
+        string: str
+
+        with open("howtouse", mode="r", encoding="utf-8") as f:
+            string = f.read()
+
+        print(string)
 
     def which_group(self, groups: list[Group]) -> str:
         """

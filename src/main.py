@@ -45,14 +45,7 @@ def main() -> int:
 
     arguments = sys.argv
 
-    g = Group(basefolder)
-
-    g.load_group("moje")
-
     logic: Logic = Logic(basefolder, intervals)
-
-    logic.del_qna()
-    return
     logic.parse_args(arguments)
 
     return 0

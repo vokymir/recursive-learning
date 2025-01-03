@@ -1,0 +1,7 @@
+HOW TO USE recursive-learning
+
+    path [OPTIONS]
+
+OPTIONS:
+    -c : Compile all questions, do it before you start questioning yourself to make sure all questions are present.
+    -r : Run, show you the compiled questions.
