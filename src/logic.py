@@ -94,6 +94,10 @@ class Logic:
         return True
 
     def load_groups(self) -> bool:
+        """
+        Load all groups and saves them into self.groups
+        Return True on success, False on failure.
+        """
         self.groups = list()
 
         for filename in os.listdir(self.basefolder):
@@ -111,6 +115,11 @@ class Logic:
         return True
 
     def del_group(self) -> bool:
+        """
+        Delete group specified by user.
+        Call UI to ask user which group.
+        Return True on success, False on failure.
+        """
         # make sure groups are complete
         if len(self.groups) == 0:
             self.load_groups()
@@ -124,6 +133,21 @@ class Logic:
             return False
         # all done
         return True
+
+    def del_qna(self) -> bool:
+        pass
+
+    def edit_group(self) -> bool:
+        pass
+
+    def edit_qna(self) -> bool:
+        pass
+
+    def add_group(self) -> bool:
+        pass
+
+    def add_qna(self) -> bool:
+        pass
 
     def compile(self) -> bool:
         """
