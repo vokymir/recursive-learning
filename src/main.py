@@ -33,7 +33,7 @@ def get_config(config_name: str) -> list[str]:
     return [basefolder, intervals]
 
 
-def main():
+def main() -> int:
     basefolder: str
     intervals_s: str
     intervals: list[int]
@@ -44,11 +44,15 @@ def main():
 
     arguments = sys.argv
 
-    # zpracovat argumenty
+    g = Group(basefolder)
+    g.load_group("moje")
+    qna = g.load_qna(0)
+    qna.should_present(intervals)
 
     logic: Logic = Logic(basefolder, intervals)
-
     logic.parse_args(arguments)
+
+    return 0
 
 
 if __name__ == "__main__":

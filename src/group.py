@@ -113,6 +113,9 @@ class Group:
         Save an existing qna object to group folder where this qna doesn't exist.
         Return true on success, false on failure.
         """
+        if qna == None:
+            return GroupError.INVALID_PARAMS
+
         if give_new_id:
             qna.id = self.next_qna_id
         path = os.path.join(self.basefolder, self.g_id, f"{qna.id}.qna")
@@ -178,4 +181,27 @@ class Group:
         Uses ID to recognize QnA, resaves it.
         Return true on success, false on failure.
         """
+        if qna == None:
+            return GroupError.INVALID_PARAMS
         return self.save_qna(qna, False, True)
+
+    def del_qna(self, qna: QnA) -> bool:
+        """
+        Archive QnA by setting its extension to .not,
+        therefore excluding it from search.
+        """
+        if qna == None:
+            return GroupError.INVALID_PARAMS
+
+        path = os.path.join(self.basefolder, self.g_id, f"{qna.id}.qna")
+        if not Path(path).exists():
+            return GroupError.QNA_W_ID_DOESNT_EXIST
+
+        try:
+            os.rename(
+                os.path.join(self.basefolder, self.g_id, f"{qna.id}.qna"),
+                os.path.join(self.basefolder, self.g_id, f"{qna.id}.not"),
+            )
+            return GroupError.SUCCESS
+        except:
+            return GroupError.DELETE_FAILED

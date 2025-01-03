@@ -16,3 +16,5 @@ class GroupError(Enum):
     QNA_CREATE_FAILED = 5
     SAVE_G_INFO_FAILED = 6
     QNA_W_ID_ALREADY_EXIST = 7
+    QNA_W_ID_DOESNT_EXIST = 8
+    INVALID_PARAMS = 9

@@ -1,1 +1,1 @@
-moje|moje otazky||10|3
+moje|moje otazky||10|6
