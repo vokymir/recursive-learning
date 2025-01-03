@@ -2,6 +2,7 @@ from group import Group
 from qna import QnA
 from ui import UI
 from logic import Logic
+import helper
 
 from datetime import date
 import os
@@ -44,10 +45,14 @@ def main() -> int:
 
     arguments = sys.argv
 
+    """
     g = Group(basefolder)
+    g.create_group("druha grupa", "dva", "moje", helper.Priority.HIGH)
+    
     g.load_group("moje")
     qna = g.load_qna(0)
     qna.should_present(intervals)
+    """
 
     logic: Logic = Logic(basefolder, intervals)
     logic.parse_args(arguments)

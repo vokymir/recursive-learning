@@ -98,12 +98,12 @@ class Logic:
 
         for filename in os.listdir(self.basefolder):
             # exclude other files
-            if filename.split(".")[1] != "qna":
+            if ".gg" in filename:
                 continue
             # load group
             g: Group = Group(self.basefolder)
             # check if valid
-            if not g.load_group(filename.split(".")[0]):
+            if not g.load_group(filename):
                 return False
             # add to arr
             self.groups.append(g)

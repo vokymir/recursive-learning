@@ -15,15 +15,16 @@ class UI:
         Show user all groups and let him choose one.
         Return group ID.
         """
-        string: str = ""
-        res
+        string: str = "||"
+        res: str
 
         for i in range(len(groups)):
-            string += f"({i}) {groups[i].g_name} | "
+            string += f" ({i}) {groups[i].g_name} |"
+        string += "|"
 
         while 1:
             print(string)
-            res = input("Plese select group, by entering assigned number:", end=" ")
+            res = input("Plese select group, by entering assigned number: ")
             try:
                 res = int(res)
                 break
