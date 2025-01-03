@@ -2,7 +2,7 @@ from datetime import date
 
 
 class QnA:
-    id: int = 0
+    id: int = -1
     question: str = ""
     hint: str = ""
     answer: str = ""

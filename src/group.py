@@ -106,14 +106,17 @@ class Group:
                 pass
         return GroupError.DELETE_FAILED
 
-    def save_qna(self, qna: QnA) -> bool:
+    def save_qna(
+        self, qna: QnA, give_new_id: bool = True, overwrite: bool = False
+    ) -> bool:
         """
         Save an existing qna object to group folder where this qna doesn't exist.
         Return true on success, false on failure.
         """
-        qna.id = self.next_qna_id
+        if give_new_id:
+            qna.id = self.next_qna_id
         path = os.path.join(self.basefolder, self.g_id, f"{qna.id}.qna")
-        if Path(path).exists():
+        if (not overwrite) and Path(path).exists():
             return GroupError.QNA_W_ID_ALREADY_EXIST
 
         string = "&^#\n".join(
@@ -135,7 +138,8 @@ class Group:
             ) as f:
                 f.write(string)
 
-            self.next_qna_id += 1
+            if give_new_id:
+                self.next_qna_id += 1
             if self.save_group_info() != GroupError.SUCCESS:
                 return GroupError.SAVE_G_INFO_FAILED
             else:
@@ -174,4 +178,4 @@ class Group:
         Uses ID to recognize QnA, resaves it.
         Return true on success, false on failure.
         """
-        pass
+        return self.save_qna(qna, False, True)

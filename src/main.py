@@ -42,15 +42,21 @@ def main():
     g.load_group("moje")
 
     qna = QnA()
-    qna.question = "Kolik ukazuju prstu?"
-    qna.answer = "Zadny."
+    qna.question = "Kolik ukazuju rukou?"
+    qna.answer = "Dve."
     qna.date_added = date.today()
 
     g.save_qna(qna)
 
     lol = g.load_qna(0)
 
-    print(lol.question)
+    print(lol.answer)
+
+    lol.answer = "Tri."
+    g.edit_qna(lol)
+
+    lama = g.load_qna(0)
+    print(lama.answer)
 
 
 if __name__ == "__main__":
