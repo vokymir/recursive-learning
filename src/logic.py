@@ -2,6 +2,7 @@ import os
 
 from ui import UI
 from group import Group
+from qna import QnA
 from helper import GroupError
 
 
@@ -9,12 +10,13 @@ class Logic:
     basefolder: str
     intervals: list[int]
     ui: UI
-    groups: list[Group]
+    groups: list[Group] = []
 
     def __init__(self, basefolder: str, intervals: list[int]):
         self.basefolder = basefolder
         self.intervals = intervals
         self.ui = UI()
+        self.groups = []
 
     def parse_args(self, args: list[str]) -> bool:
         """
@@ -134,8 +136,50 @@ class Logic:
         # all done
         return True
 
+    def load_qnas(self, g: Group) -> list[QnA]:
+        qnas: list[QnA] = []
+        path = os.path.join(self.basefolder, g.g_id)
+        files = os.listdir(path)
+
+        # check all files
+        for file in files:
+            if not ".qna" in file:
+                continue
+            # load QnA
+            qna = g.load_qna(int(file.split(".")[0]))
+            if qna != None:
+                qnas.append(qna)
+
+        return qnas
+
     def del_qna(self) -> bool:
-        pass
+        """
+        Delete QnA specified by user.
+        Ask user which group and which QnA ID in that group.
+        Return True on succes, False on failure.
+        """
+        # make sure groups are complete
+        if len(self.groups) == 0:
+            self.load_groups()
+
+        # get group
+        g_id = self.ui.which_group(self.groups)
+        g = Group(self.basefolder)
+        ger = g.load_group(g_id)
+        if ger != GroupError.SUCCESS:
+            return False
+
+        # get QnA
+        qna_id = self.ui.which_qna(self.load_qnas(g))
+        qna = g.load_qna(qna_id)
+        if qna == None:
+            return False
+
+        # delete QnA
+        if not g.del_qna(qna):
+            return False
+
+        return True
 
     def edit_group(self) -> bool:
         pass
