@@ -48,6 +48,10 @@ def main():
 
     g.save_qna(qna)
 
+    lol = g.load_qna(0)
+
+    print(lol.question)
+
 
 if __name__ == "__main__":
     main()

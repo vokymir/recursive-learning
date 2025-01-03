@@ -3,6 +3,7 @@ from helper import Priority, GroupError
 
 from pathlib import Path
 import os
+from datetime import date
 
 
 class Group:
@@ -121,7 +122,7 @@ class Group:
                 qna.question,
                 qna.hint,
                 qna.answer,
-                qna.date_added.strftime("%Y-%m-%d"),
+                str(qna.date_added.toordinal()),
                 ",".join(qna.progress),
             ]
         )
@@ -148,7 +149,24 @@ class Group:
         Load QnA with qna_id ID from group folder.
         Returns QnA instance on success and None on failure.
         """
-        pass
+        path = Path(self.basefolder, self.g_id, f"{qna_id}.qna")
+        content: list[str]
+        qna: QnA = QnA()
+
+        if not path.exists():
+            return None
+
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read().split("&^#\n")
+
+        qna.id = int(content[0])
+        qna.question = content[1]
+        qna.hint = content[2]
+        qna.answer = content[3]
+        qna.date_added = date.fromordinal(int(content[4]))
+        qna.progress = content[5].split(",")
+
+        return qna
 
     def edit_qna(self, qna: QnA) -> bool:
         """
