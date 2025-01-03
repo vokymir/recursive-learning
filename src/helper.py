@@ -13,3 +13,6 @@ class GroupError(Enum):
     PATH_INVALID = 2
     DELETE_FAILED = 3
     LOAD_FAILED = 4
+    QNA_CREATE_FAILED = 5
+    SAVE_G_INFO_FAILED = 6
+    QNA_W_ID_ALREADY_EXIST = 7

@@ -1,6 +1,7 @@
 from qna import QnA
 from helper import Priority, GroupError
 
+from pathlib import Path
 import os
 
 
@@ -106,10 +107,41 @@ class Group:
 
     def save_qna(self, qna: QnA) -> bool:
         """
-        Save an existing qna object to group folder.
+        Save an existing qna object to group folder where this qna doesn't exist.
         Return true on success, false on failure.
         """
-        pass
+        qna.id = self.next_qna_id
+        path = os.path.join(self.basefolder, self.g_id, f"{qna.id}.qna")
+        if Path(path).exists():
+            return GroupError.QNA_W_ID_ALREADY_EXIST
+
+        string = "&^#\n".join(
+            [
+                f"{qna.id}",
+                qna.question,
+                qna.hint,
+                qna.answer,
+                qna.date_added.strftime("%Y-%m-%d"),
+                ",".join(qna.progress),
+            ]
+        )
+
+        try:
+            with open(
+                path,
+                "w+",
+                encoding="utf-8",
+            ) as f:
+                f.write(string)
+
+            self.next_qna_id += 1
+            if self.save_group_info() != GroupError.SUCCESS:
+                return GroupError.SAVE_G_INFO_FAILED
+            else:
+                return GroupError.SUCCESS
+
+        except:
+            return GroupError.QNA_CREATE_FAILED
 
     def load_qna(self, qna_id: int) -> QnA | None:
         """

@@ -1,6 +1,7 @@
 from group import Group
 from qna import QnA
 
+from datetime import date
 import os
 
 
@@ -37,10 +38,15 @@ def main():
     basefolder, intervals_s = get_config("config")
     intervals = [int(interval) for interval in intervals_s.strip().split(",")]
 
-    g: Group = Group(basefolder)
+    g = Group(basefolder)
     g.load_group("moje")
 
-    print(g.g_name)
+    qna = QnA()
+    qna.question = "Kolik ukazuju prstu?"
+    qna.answer = "Zadny."
+    qna.date_added = date.today()
+
+    g.save_qna(qna)
 
 
 if __name__ == "__main__":
