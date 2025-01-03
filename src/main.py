@@ -1,8 +1,11 @@
 from group import Group
 from qna import QnA
+from ui import UI
+from logic import Logic
 
 from datetime import date
 import os
+import sys
 
 
 def get_config(config_name: str) -> list[str]:
@@ -34,29 +37,18 @@ def main():
     basefolder: str
     intervals_s: str
     intervals: list[int]
+    arguments: list[str]
 
     basefolder, intervals_s = get_config("config")
     intervals = [int(interval) for interval in intervals_s.strip().split(",")]
 
-    g = Group(basefolder)
-    g.load_group("moje")
+    arguments = sys.argv
 
-    qna = QnA()
-    qna.question = "Kolik ukazuju rukou?"
-    qna.answer = "Dve."
-    qna.date_added = date.today()
+    # zpracovat argumenty
 
-    g.save_qna(qna)
+    logic: Logic = Logic(basefolder, intervals)
 
-    lol = g.load_qna(0)
-
-    print(lol.answer)
-
-    lol.answer = "Tri."
-    g.edit_qna(lol)
-
-    lama = g.load_qna(0)
-    print(lama.answer)
+    logic.parse_args(arguments)
 
 
 if __name__ == "__main__":
