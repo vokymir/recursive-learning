@@ -1,0 +1,1 @@
+moje|moje otazky||10|0
